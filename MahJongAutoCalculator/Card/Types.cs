@@ -4,11 +4,14 @@ public enum NumberType {
     Bamboo
 }
 
-public enum LetterType {
+public enum WindDirection {
     East,
     South,
     West,
     North,
+}
+
+public enum LetterType {
     White,
     Bloom,
     Middle,
