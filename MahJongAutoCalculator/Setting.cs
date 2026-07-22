@@ -8,5 +8,6 @@ public record Setting(
 	bool IsFirstTurn,
 	bool IsLastCard,
 	bool IsRon,
-	bool IsOneShot
+	bool IsOneShot,
+	bool IsOpenInKingTable
 );
