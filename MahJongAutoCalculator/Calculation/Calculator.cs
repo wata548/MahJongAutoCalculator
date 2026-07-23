@@ -18,17 +18,16 @@ public class Calculator {
 		
 	public Score Calc(Setting pSetting, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard) {
 		var score = new Score();
-		var hands = pHands.ToList();
-		hands.Sort();
-		foreach (var form in _specialForms) {
-			score = form.Calc(score, hands, pLastCard, pSetting);
-		}
+		var hands = pHands.OrderBy(card => card, new CardComparer());
+
+		score = _specialForms.Aggregate(score, (current, form) => form.Calc(current, hands, pLastCard, pSetting));
 
 		if (score is { Fu: 0, Han: 0 }) {
 			//TODO: Skip find form in default forms(just calc doras)
 			return score;
 		}
 
+		
 		//TODO: Calc score in default forms, doras
 		return score;
 	}

@@ -1,7 +1,7 @@
 namespace MahJongAutoCalculator.SpecialForm;
 
 public class ThirteenOrphans: SpecialForm {
-    public override Score Calc(Score pScore, IEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
+    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
         Card shootCard = null;
         Card lastCard = null;
         foreach (var card in pHands ) {
