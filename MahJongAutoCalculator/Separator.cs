@@ -1,52 +1,86 @@
 namespace MahJongAutoCalculator;
 
-public class Separator {
-    public Separator(IOrderedEnumerable<Card> pHands) {
+public static class Separator {
+    public static Form? Separate(IOrderedEnumerable<Card> pHands) {
         IReadOnlyList<Card> hands = pHands.ToList();
-        var find = false;
         var bodies = new List<Body>();
-        Head head = null;
-        var numberCardCnt = new byte[3 * 9];
+        Head? head = null;
+        var result = DFS();
+        return result
+            ? new Form(head!, bodies)
+            : null;
 
-        //theory maximum 18(四槓子) < 32(int)bit
-        bool DFS(bool pFindHead = false, int pStartIdx = 0, int pStartFlag = 0, int pVisit = 0) {
-            if (hands.Count == pStartIdx) return pFindHead;
-            if (find) return false;
-            var subFlag = pStartFlag == 0 ? 1 : pStartFlag;
-            if (hands[pStartIdx] is not NumberCard number) {
-                return CheckSameCardForm();
+        //theory maximum 18(四槓子) < 32(int)bit (bit flag)
+        bool DFS(bool pFindHead = false, int pStartIdx = 0, int pVisit = 0) {
+            var startFlag = 1 << (pStartIdx + 1);
+            while ((startFlag & pVisit) != 0) {
+                startFlag <<= 1;
+                pStartIdx++;
             }
-
-            //TODO: Check straight with many condition branches 
-            //f = four, t = triple, h = head, s = straight
-            //switch(Same card cnt)
-            //1 => s
-            //2 => s * 2 or h
-            //3 => s * 3 or h + s or t
-            //4 => f or t + s or h + s * 2 or s * 4
+            if (hands.Count == pStartIdx) return pFindHead;
+            pVisit |= startFlag;
             
-            
+            if (CheckStraight()) return true;
             return CheckSameCardForm();
 
-            //Head, Triple, Four
-            bool CheckSameCardForm() {
-                if (!pFindHead && hands[pStartFlag].Equals(hands[pStartFlag + 1])) {
-                    if (DFS(true, pStartIdx + 2, subFlag << 2, pVisit)) {
-                        head = new Head(hands[pStartIdx]);
-                        return true;
+            bool CheckStraight() {
+                if (hands[pStartIdx] is NumberCard number) {
+                    var checkFlag = startFlag << 1;
+                    var tempVisit = pVisit;
+                    var straightDelta = 1;
+                    for (int i = pStartIdx + 1; i < hands.Count; i++, checkFlag <<= 1) {
+                        if (hands[i] is not NumberCard candidate) break;
+                        if (candidate.NumberType != number.NumberType) break;
+                        if((pVisit & checkFlag) != 0) continue;
+                        if(candidate.Number != number.Number + straightDelta) continue;
+                                
+                        straightDelta++;
+                        tempVisit |= checkFlag;
+                        if (straightDelta != 3) continue;
+                        if (DFS(pFindHead, pStartIdx + 1, tempVisit)) {
+                            bodies.Add(Body.Straight(number));
+                            return true;        
+                        }
+                        break;
                     }
                 }
-                if (hands.Count < pStartFlag + 2) return false;
-                var isAbleToTriple = hands[pStartFlag].Equals(hands[pStartFlag + 1]) &&
-                                     hands[pStartFlag].Equals(hands[pStartFlag + 2]);
-                if (isAbleToTriple && DFS(pFindHead, pStartFlag + 3, subFlag << 3, pVisit)) {
+                return false;
+            }
+            
+            //Head, Triple, Four
+            bool CheckSameCardForm() {
+                var checkFlag = startFlag << 1;
+                var tempVisit = pVisit | checkFlag;
+                if ((pVisit & checkFlag) != 0) return false;
+                if (hands.Count <= pStartIdx + 1) return false;
+                
+                //head
+                if (!hands[pStartIdx].Equals(hands[pStartIdx + 1])) return false;
+                if (!pFindHead && DFS(true, pStartIdx + 2, tempVisit)) {
+                    head = new Head(hands[pStartIdx]);
+                    return true;
+                }
+
+                checkFlag <<= 1;
+                tempVisit |= checkFlag;
+                if ((pVisit & checkFlag) != 0) return false;
+                if (hands.Count <= pStartIdx + 2) return false;
+                
+                //triple
+                if (!hands[pStartIdx].Equals(hands[pStartIdx + 2])) return false;
+                if (DFS(pFindHead, pStartIdx + 3, tempVisit)) {
                     bodies.Add(Body.Triple(hands[pStartIdx]));
                     return true;
                 }
-                                
-                var isAbleToFour = isAbleToTriple && hands.Count > pStartIdx + 3 && 
-                                   hands[pStartFlag].Equals(hands[pStartFlag + 3]);
-                if (isAbleToFour && DFS(pFindHead, pStartFlag + 4, subFlag << 4, pVisit)) {
+                
+                checkFlag <<= 1;
+                tempVisit |= checkFlag;
+                if ((pVisit & checkFlag) != 0) return false;
+                if (hands.Count <= pStartIdx + 3) return false;
+                
+                //four
+                if (!hands[pStartIdx].Equals(hands[pStartIdx + 3])) return false;
+                if (DFS(pFindHead, pStartIdx + 4, tempVisit)) {
                     bodies.Add(Body.Four(hands[pStartIdx]));
                     return true;
                 }

@@ -15,7 +15,7 @@ public class Body {
 	//Four card
 	private Body(Card pStandardCard) {
 		IsFour = true;
-		pStandardCard = pStandardCard;
+		StandardCard = pStandardCard;
 	}
 	
 	//Straight or Triple
@@ -24,9 +24,15 @@ public class Body {
 		IsStraight = pIsStraight;
 		IsFour = false;
 	}
+
+	public override string ToString() {
+		if (IsStraight) return $"{StandardCard} ~ {(StandardCard as NumberCard)!.Number + 2}";
+		return $"{StandardCard} x {(IsFour ? 4 : 3)}";
+	}
 }
 
 public class Head {
 	public readonly Card StandardCard;
 	public Head(Card pStandardCard) => StandardCard = pStandardCard;
+	public override string ToString() => $"{StandardCard} x 2";
 }
