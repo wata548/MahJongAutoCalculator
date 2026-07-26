@@ -4,43 +4,22 @@ namespace MahJongAutoCalculator;
 
 public class Program {
     public static void Main() {
-        /*var hands = new List<Card>() {
-            new NumberCard(NumberType.Money, 1, false, false),
-            new NumberCard(NumberType.Money, 1, false, false),
-            new LetterCard(LetterType.White, false),
-            new NumberCard(NumberType.Money, 1, false, false),
-            new NumberCard(NumberType.Money, 1, false, false),
-            new LetterCard(LetterType.White, false),
-            new NumberCard(NumberType.Money, 2, false, false),
-            new NumberCard(NumberType.Money, 2, false, false),
-            new LetterCard(LetterType.White, false),
-            new NumberCard(NumberType.Money, 3, false, false),
-            new NumberCard(NumberType.Money, 3, false, false),
-            new LetterCard(LetterType.White, false),
-            new NumberCard(NumberType.Money, 4, false, false),
-            new NumberCard(NumberType.Money, 4, false, false),
-            new NumberCard(NumberType.Money, 4, false, false),
-            new NumberCard(NumberType.Money, 4, false, false),
-        };*/
-        var hands = new List<Card>() {
-            new NumberCard(NumberType.Money, 1, false, false),
-            new NumberCard(NumberType.Money, 1, false, false),
-            new NumberCard(NumberType.Money, 1, false, false),
-            new NumberCard(NumberType.Money, 2, false, false),
-            new NumberCard(NumberType.Money, 3, false, false),
-            new NumberCard(NumberType.Money, 4, false, false),
-            new NumberCard(NumberType.Money, 5, false, false),
-            new NumberCard(NumberType.Money, 6, false, false),
-            new NumberCard(NumberType.Money, 7, false, false),
-            new NumberCard(NumberType.Money, 8, false, false),
-            new NumberCard(NumberType.Money, 9, false, false),
-            new NumberCard(NumberType.Money, 9, false, false),
-            new NumberCard(NumberType.Money, 9, false, false),
-            new NumberCard(NumberType.Money, 9, false, false),
-        };
-		var orderedHand = hands.OrderBy(card => card, new CardComparer());
-        Console.WriteLine(Separator.Separate(orderedHand));
-        
+        var setting = new Setting(
+            true,
+            WindDirection.East,
+            WindDirection.East,
+            true,
+            true,
+            false,
+            false,
+            true,
+            false
+        );
+
+        var hands = SevenHead();
+        var calculator = new Calculator();
+        var result = calculator.Calc(setting, hands, [], new LetterCard(LetterType.Bloom, true));
+        Console.WriteLine(result);
     }
 
     private float BenchMaking(IOrderedEnumerable<Card> pHands, int pAmount) {
@@ -50,6 +29,73 @@ public class Program {
             Separator.Separate(pHands);
         }
         timer.Stop();
-        return timer.ElapsedMilliseconds;
+        return timer.ElapsedMilliseconds; 
     }
+
+    private static List<Card> SevenHead() => [
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+    ];
+
+    private static List<Card> Big() => [
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.Bloom, false),
+        new LetterCard(LetterType.Bloom, false),
+        new LetterCard(LetterType.Bloom, true),
+        new LetterCard(LetterType.Middle, false),
+        new LetterCard(LetterType.Middle, false),
+        new WindCard(WindDirection.East, false),
+        new WindCard(WindDirection.East, false),
+        new WindCard(WindDirection.East, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+    ];
+    private static List<Card> Test() => [
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Money, 2, false, false),
+        new NumberCard(NumberType.Money, 2, false, false),
+        new NumberCard(NumberType.Money, 2, false, false),
+        new NumberCard(NumberType.Bamboo, 2, false, false),
+        new NumberCard(NumberType.Bamboo, 2, false, false),
+        new NumberCard(NumberType.Bamboo, 2, false, false),
+        new NumberCard(NumberType.Bamboo, 4, false, false),
+        new NumberCard(NumberType.Bamboo, 4, false, false),
+        new NumberCard(NumberType.Bamboo, 4, false, false),
+        new NumberCard(NumberType.Bamboo, 4, false, false),
+        new NumberCard(NumberType.Bamboo, 5, false, false),
+        new NumberCard(NumberType.Bamboo, 5, false, false),
+    ];
+    private static List<Card> Thirteen() => [
+        new LetterCard(LetterType.White, false),
+        new LetterCard(LetterType.Bloom, false),
+        new LetterCard(LetterType.Bloom, false),
+        new LetterCard(LetterType.Middle, false),
+        new WindCard(WindDirection.East, false),
+        new WindCard(WindDirection.West, false),
+        new WindCard(WindDirection.South, false),
+        new WindCard(WindDirection.North, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 9, false, false),
+        new NumberCard(NumberType.Money, 1, false, false),
+        new NumberCard(NumberType.Money, 9, false, false),
+        new NumberCard(NumberType.Bamboo, 1, false, false),
+        new NumberCard(NumberType.Bamboo, 9, false, false),
+    ];
 }

@@ -6,6 +6,7 @@ public static class Separator {
         var bodies = new List<Body>();
         Head? head = null;
         var result = DFS();
+        bodies.Reverse();
         return result
             ? new Form(head!, bodies)
             : null;

@@ -1,6 +1,6 @@
 namespace MahJongAutoCalculator.SpecialForm;
 
-public class SevenHead: SpecialForm {
+public class 七対子: SpecialForm {
     public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
         var cnt = 0;
         Card last = null;
@@ -11,19 +11,17 @@ public class SevenHead: SpecialForm {
                 continue;
             }
 
-            if (last.Equals(card)) {
-                cnt++;
-                if (cnt > 2) return pScore;
-            }
+            if (last.Equals(card)) cnt++;
             else {
-                if (cnt < 2) return pScore;
+                if (cnt % 2 == 1) return pScore;
                 cnt = 1;
                 last = card;
             }
         }
-        pScore.Lock = true;
+        ApplyForm(pScore);
         pScore.Set(pFu: 25);
         pScore.Add(pHan: 2);
+        pScore.FuLock = true;
         return pScore;
     }
 }

@@ -1,6 +1,7 @@
 namespace MahJongAutoCalculator.SpecialForm;
 
-public class ThirteenOrphans: SpecialForm {
+public class 国士無双: SpecialForm {
+    private const string DoubleSuffix = "十三面聽";
     public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
         Card shootCard = null;
         Card lastCard = null;
@@ -20,9 +21,10 @@ public class ThirteenOrphans: SpecialForm {
         }
 
         if (shootCard == null) return pScore;
-        
-        //contain double yakuman(waiting 13 cards)
-        pScore.AddYakuman(pLastCard.Equals(shootCard) ? 2 : 1);
+
+        var isDouble = pLastCard.Equals(shootCard);
+        ApplyForm(pScore, true, "", isDouble ? DoubleSuffix : "");
+        pScore.AddYakuman(isDouble ? 2 : 1);
         return pScore;
     }
 }
