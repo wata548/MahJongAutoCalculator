@@ -29,6 +29,7 @@ public static class Separator {
                     var checkFlag = startFlag << 1;
                     var tempVisit = pVisit;
                     var straightDelta = 1;
+                    var isOpen = false;
                     for (int i = pStartIdx + 1; i < hands.Count; i++, checkFlag <<= 1) {
                         if (hands[i] is not NumberCard candidate) break;
                         if (candidate.NumberType != number.NumberType) break;
@@ -37,9 +38,10 @@ public static class Separator {
                                 
                         straightDelta++;
                         tempVisit |= checkFlag;
+                        isOpen |= hands[i].IsRotated;
                         if (straightDelta != 3) continue;
                         if (DFS(pFindHead, pStartIdx + 1, tempVisit, pDepth + 1)) {
-                            bodies.Add(Body.Straight(number));
+                            bodies.Add(Body.Straight(number, isOpen));
                             return true;        
                         }
                         break;
@@ -50,10 +52,12 @@ public static class Separator {
             
             //Head, Triple, Four
             bool CheckSameCardForm() {
+                var isOpen = false;
                 var checkFlag = startFlag << 1;
                 var tempVisit = pVisit | checkFlag;
                 if ((pVisit & checkFlag) != 0) return false;
                 if (hands.Count <= pStartIdx + 1) return false;
+                isOpen |= hands[pStartIdx + 1].IsRotated;
                 
                 //head
                 if (!hands[pStartIdx].Equals(hands[pStartIdx + 1])) return false;
@@ -66,11 +70,12 @@ public static class Separator {
                 tempVisit |= checkFlag;
                 if ((pVisit & checkFlag) != 0) return false;
                 if (hands.Count <= pStartIdx + 2) return false;
+                isOpen |= hands[pStartIdx + 2].IsRotated;
                 
                 //triple
                 if (!hands[pStartIdx].Equals(hands[pStartIdx + 2])) return false;
                 if (DFS(pFindHead, pStartIdx + 3, tempVisit, pDepth + 1)) {
-                    bodies.Add(Body.Triple(hands[pStartIdx]));
+                    bodies.Add(Body.Triple(hands[pStartIdx], isOpen));
                     return true;
                 }
                 
@@ -78,11 +83,12 @@ public static class Separator {
                 tempVisit |= checkFlag;
                 if ((pVisit & checkFlag) != 0) return false;
                 if (hands.Count <= pStartIdx + 3) return false;
+                isOpen |= hands[pStartIdx + 3].IsRotated;
                 
                 //four
                 if (!hands[pStartIdx].Equals(hands[pStartIdx + 3])) return false;
                 if (DFS(pFindHead, pStartIdx + 4, tempVisit, pDepth + 1)) {
-                    bodies.Add(Body.Four(hands[pStartIdx]));
+                    bodies.Add(Body.Four(hands[pStartIdx], isOpen));
                     return true;
                 }
                 return false;

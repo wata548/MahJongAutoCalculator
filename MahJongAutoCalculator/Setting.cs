@@ -2,8 +2,8 @@ namespace MahJongAutoCalculator;
 
 public record Setting(
 	bool IsParent,
-	WindDirection LongWind,
-	WindDirection PlayerWind,
+	WindDirection RoundWind,
+	WindDirection SeatWind,
 	bool IsRich,
 	bool IsFirstTurn,
 	bool IsLastCard,

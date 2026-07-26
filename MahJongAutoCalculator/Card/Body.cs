@@ -6,23 +6,26 @@ public class Body {
 
 	public readonly bool IsStraight;
 	public readonly bool IsFour;
+	public readonly bool IsOpen;
 	public readonly Card StandardCard;
 
-	public static Body Four(Card pStandardCard) => new(pStandardCard);
-	public static Body Triple(Card pStandardCard) => new(pStandardCard, false);
-	public static Body Straight(Card pStandardCard) => new(pStandardCard, true);
+	public static Body Four(Card pStandardCard, bool pIsOpen) => new(pStandardCard, pIsOpen);
+	public static Body Triple(Card pStandardCard, bool pIsOpen) => new(pStandardCard, false, pIsOpen);
+	public static Body Straight(Card pStandardCard, bool pIsOpen) => new(pStandardCard, true, pIsOpen);
 	
 	//Four card
-	private Body(Card pStandardCard) {
+	private Body(Card pStandardCard, bool pIsOpen) {
 		IsFour = true;
 		StandardCard = pStandardCard;
+		IsOpen = pIsOpen;
 	}
 	
 	//Straight or Triple
-	private Body(Card pStandardCard, bool pIsStraight) {
+	private Body(Card pStandardCard, bool pIsStraight, bool pIsOpen) {
 		StandardCard = pStandardCard;
 		IsStraight = pIsStraight;
 		IsFour = false;
+		IsOpen = pIsOpen;
 	}
 
 	public override string ToString() {

@@ -17,7 +17,7 @@ public class Program {
             true
         );
 
-        var hands = SevenHead();
+        var hands = Big();
         var calculator = new Calculator();
         var result = calculator.Calc(setting, hands, [], new LetterCard(LetterType.Bloom, true));
         Console.WriteLine(result);
@@ -49,7 +49,6 @@ public class Program {
         new NumberCard(NumberType.Wheel, 2, false, false),
         new NumberCard(NumberType.Wheel, 2, false, false),
     ];
-
     private static List<Card> Big() => [
         new LetterCard(LetterType.White, false),
         new LetterCard(LetterType.White, false),

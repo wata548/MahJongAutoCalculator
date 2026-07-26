@@ -1,11 +1,13 @@
 namespace MahJongAutoCalculator.NormalForms;
 
-public class 四槓子: NormalForm {
+public class 小四喜: NormalForm {
     public override Score Calc(Score pScore, Form pHands, Card pLastCard, Setting pSetting) {
-        if (pHands.Bodies.All(body => body.IsFour)) {
+        var cnt = pHands.Bodies.Count(body => body.StandardCard.Type == CardType.Wind);
+        if (cnt >= 3 && pHands.Head.StandardCard.Type == CardType.Wind) {
             ApplyForm(pScore, true);
             pScore.AddYakuman(1);
         }
+
         return pScore;
     }
 }

@@ -1,11 +1,12 @@
 namespace MahJongAutoCalculator.NormalForms;
 
-public class 四槓子: NormalForm {
+
+public class 対々和: NormalForm {
     public override Score Calc(Score pScore, Form pHands, Card pLastCard, Setting pSetting) {
-        if (pHands.Bodies.All(body => body.IsFour)) {
-            ApplyForm(pScore, true);
-            pScore.AddYakuman(1);
+        if (pHands.Bodies.All(body => !body.IsStraight)) {
+            ApplyForm(pScore);
+            pScore.Add(2);
         }
         return pScore;
-    }
+    }   
 }
