@@ -1,9 +1,8 @@
-namespace MahJongAutoCalculator.SpecialForm;
+namespace MahJongAutoCalculator.SpecialForms;
 
-public class 天和: SpecialForm {
+public class 清老頭: SpecialForm {
     public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
-        if (!pSetting.IsParent) return pScore;
-        if (pSetting is { IsFirstTurn: true, IsRon: false }) {
+        if (pHands.All(card => card.Type == CardType.Head)) {
             ApplyForm(pScore, true);
             pScore.AddYakuman(1);
         }

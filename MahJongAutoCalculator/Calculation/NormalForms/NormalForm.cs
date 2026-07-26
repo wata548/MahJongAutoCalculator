@@ -1,4 +1,4 @@
-namespace MahJongAutoCalculator.DefaultForm;
+namespace MahJongAutoCalculator.NormalForms;
 
 public abstract class NormalForm: IForm {
     public virtual string Name => GetType().Name;

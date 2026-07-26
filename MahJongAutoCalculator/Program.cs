@@ -9,11 +9,12 @@ public class Program {
             WindDirection.East,
             WindDirection.East,
             true,
-            true,
             false,
             false,
+            false,
             true,
-            false
+            false,
+            true
         );
 
         var hands = SevenHead();
@@ -33,20 +34,20 @@ public class Program {
     }
 
     private static List<Card> SevenHead() => [
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
-        new LetterCard(LetterType.White, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
+        new NumberCard(NumberType.Wheel, 2, false, false),
     ];
 
     private static List<Card> Big() => [
@@ -97,5 +98,21 @@ public class Program {
         new NumberCard(NumberType.Money, 9, false, false),
         new NumberCard(NumberType.Bamboo, 1, false, false),
         new NumberCard(NumberType.Bamboo, 9, false, false),
+    ];
+    private static List<Card> CleanHead() => [
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, false, false),
     ];
 }

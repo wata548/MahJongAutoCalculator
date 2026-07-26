@@ -12,13 +12,13 @@ public static class Separator {
             : null;
 
         //theory maximum 18(四槓子) < 32(int)bit (bit flag)
-        bool DFS(bool pFindHead = false, int pStartIdx = 0, int pVisit = 0) {
+        bool DFS(bool pFindHead = false, int pStartIdx = 0, int pVisit = 0, int pDepth = 0) {
             var startFlag = 1 << (pStartIdx + 1);
             while ((startFlag & pVisit) != 0) {
                 startFlag <<= 1;
                 pStartIdx++;
             }
-            if (hands.Count == pStartIdx) return pFindHead;
+            if (hands.Count == pStartIdx) return pFindHead && pDepth == 5;
             pVisit |= startFlag;
             
             if (CheckStraight()) return true;
@@ -38,7 +38,7 @@ public static class Separator {
                         straightDelta++;
                         tempVisit |= checkFlag;
                         if (straightDelta != 3) continue;
-                        if (DFS(pFindHead, pStartIdx + 1, tempVisit)) {
+                        if (DFS(pFindHead, pStartIdx + 1, tempVisit, pDepth + 1)) {
                             bodies.Add(Body.Straight(number));
                             return true;        
                         }
@@ -57,7 +57,7 @@ public static class Separator {
                 
                 //head
                 if (!hands[pStartIdx].Equals(hands[pStartIdx + 1])) return false;
-                if (!pFindHead && DFS(true, pStartIdx + 2, tempVisit)) {
+                if (!pFindHead && DFS(true, pStartIdx + 2, tempVisit, pDepth + 1)) {
                     head = new Head(hands[pStartIdx]);
                     return true;
                 }
@@ -69,7 +69,7 @@ public static class Separator {
                 
                 //triple
                 if (!hands[pStartIdx].Equals(hands[pStartIdx + 2])) return false;
-                if (DFS(pFindHead, pStartIdx + 3, tempVisit)) {
+                if (DFS(pFindHead, pStartIdx + 3, tempVisit, pDepth + 1)) {
                     bodies.Add(Body.Triple(hands[pStartIdx]));
                     return true;
                 }
@@ -81,7 +81,7 @@ public static class Separator {
                 
                 //four
                 if (!hands[pStartIdx].Equals(hands[pStartIdx + 3])) return false;
-                if (DFS(pFindHead, pStartIdx + 4, tempVisit)) {
+                if (DFS(pFindHead, pStartIdx + 4, tempVisit, pDepth + 1)) {
                     bodies.Add(Body.Four(hands[pStartIdx]));
                     return true;
                 }

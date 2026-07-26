@@ -9,5 +9,6 @@ public record Setting(
 	bool IsLastCard,
 	bool IsRon,
 	bool IsOneShot,
-	bool IsOpenInKingTable
+	bool IsOpenInKingTable,
+	bool HaveCried
 );

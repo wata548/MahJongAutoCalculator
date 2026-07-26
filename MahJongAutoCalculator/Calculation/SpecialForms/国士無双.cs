@@ -1,4 +1,4 @@
-namespace MahJongAutoCalculator.SpecialForm;
+namespace MahJongAutoCalculator.SpecialForms;
 
 public class 国士無双: SpecialForm {
     private const string DoubleSuffix = "十三面聽";

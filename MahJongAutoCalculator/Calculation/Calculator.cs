@@ -1,11 +1,11 @@
 using System.Reflection;
-using MahJongAutoCalculator.DefaultForm;
-using MahJongAutoCalculator.SpecialForm;
+using MahJongAutoCalculator.NormalForms;
+using MahJongAutoCalculator.SpecialForms;
 
 namespace MahJongAutoCalculator;
 
 public class Calculator {
-	private readonly IReadOnlyList<SpecialForm.SpecialForm> _specialForms;
+	private readonly IReadOnlyList<SpecialForm> _specialForms;
 	private readonly IReadOnlyList<NormalForm> _normalForms;
 
 	public Calculator() {
@@ -15,8 +15,8 @@ public class Calculator {
 			               && type.IsAssignableTo(typeof(IForm))
 			);
 		_specialForms = targets
-			.Where(type => type.IsAssignableTo(typeof(SpecialForm.SpecialForm)))
-			.Select(type => (Activator.CreateInstance(type) as SpecialForm.SpecialForm)!)
+			.Where(type => type.IsAssignableTo(typeof(SpecialForm)))
+			.Select(type => (Activator.CreateInstance(type) as SpecialForm)!)
 			.ToList();
 		_normalForms = targets 
 			.Where(type => type.IsAssignableTo(typeof(NormalForm)))
@@ -25,22 +25,22 @@ public class Calculator {
 	}
 		
 	public Score Calc(Setting pSetting, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard) {
+		//TODO: calculate Fu
+		pSetting = pSetting with { HaveCried = pHands.Any(card => card.IsRotated) };
+		
 		var score = new Score();
 		var hands = pHands.OrderBy(card => card, new CardComparer());
-
+		var form = Separator.Separate(hands);
+		if (form is not null) {
+			score = _normalForms.Aggregate(score,
+				(current, checkForm) => checkForm.Calc(current, form, pLastCard, pSetting)
+			);	
+		}
+		
 		score = _specialForms.Aggregate(score, 
 			(current, form) => form.Calc(current, hands, pLastCard, pSetting)
 		);
-
-		if (score is not { Fu: 0, Han: 0 }) {
-			//TODO: Skip find form in default forms(just calc doras)
-			return score;
-		}
-
-		var form = Separator.Separate(hands);
-		score = _normalForms.Aggregate(score,
-			(current, checkForm) => checkForm.Calc(current, form, pLastCard, pSetting)
-		);
+        
 		//TODO: Calc doras
 		return score;
 	}

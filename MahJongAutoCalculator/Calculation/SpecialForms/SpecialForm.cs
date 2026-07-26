@@ -1,4 +1,4 @@
-namespace MahJongAutoCalculator.SpecialForm;
+namespace MahJongAutoCalculator.SpecialForms;
 
 public abstract class SpecialForm: IForm {
     public string Name => GetType().Name;

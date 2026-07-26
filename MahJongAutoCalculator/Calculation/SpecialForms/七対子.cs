@@ -1,4 +1,4 @@
-namespace MahJongAutoCalculator.SpecialForm;
+namespace MahJongAutoCalculator.SpecialForms;
 
 public class 七対子: SpecialForm {
     public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
@@ -18,6 +18,7 @@ public class 七対子: SpecialForm {
                 last = card;
             }
         }
+        if (cnt % 2 == 1) return pScore;
         ApplyForm(pScore);
         pScore.Set(pFu: 25);
         pScore.Add(pHan: 2);
