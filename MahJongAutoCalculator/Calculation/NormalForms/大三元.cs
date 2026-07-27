@@ -7,7 +7,7 @@ public class 大三元: NormalForm {
             .Distinct()
             .Count();
         if (cnt == 3) {
-            ApplyForm(pScore, true);
+            ApplyForm(pScore, 1, true);
             pScore.AddYakuman(1);
         }
 

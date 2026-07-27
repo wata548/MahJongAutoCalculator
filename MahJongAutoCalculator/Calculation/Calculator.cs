@@ -26,7 +26,8 @@ public class Calculator {
 		
 	public Score Calc(Setting pSetting, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard) {
 		//TODO: calculate Fu
-		pSetting = pSetting with { HaveCried = pHands.Any(card => card.IsRotated) };
+		var haveCried = pHands.Count(card => card.IsRotated) - (pSetting.IsRon ? 1 : 0) != 0;
+		pSetting = pSetting with { HaveCried = haveCried };
 		
 		var score = new Score();
 		var hands = pHands.OrderBy(card => card, new CardComparer());

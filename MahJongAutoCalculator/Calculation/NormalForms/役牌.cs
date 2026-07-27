@@ -5,7 +5,7 @@ public class 役牌: NormalForm {
         foreach (var body in pHands.Bodies) {
             if(body.IsStraight) continue; 
             if(body.StandardCard is not LetterCard letter) continue;
-            ApplyForm(pScore, pSuffix: $" - {letter.LetterType}");
+            ApplyForm(pScore,1, pSuffix: $" - {letter.LetterType}");
             pScore.Add(1);
         }
         return pScore;

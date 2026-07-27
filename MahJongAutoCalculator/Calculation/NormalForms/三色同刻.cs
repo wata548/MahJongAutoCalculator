@@ -11,7 +11,7 @@ public class 三色同刻: NormalForm {
             if(prev is not null && prev.Equals(target)) continue;
             prev = target;
             if (++cnt[target.Number] != 3) continue;
-            ApplyForm(pScore);
+            ApplyForm(pScore, 2);
             pScore.Add(pHan: 2);
             return pScore;
         }

@@ -7,12 +7,12 @@ public class Program {
         var setting = new Setting(
             true,
             WindDirection.East,
-            WindDirection.East,
+            WindDirection.West,
             true,
             false,
             false,
-            false,
             true,
+            false,
             false,
             true
         );

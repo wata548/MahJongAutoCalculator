@@ -3,6 +3,7 @@ using System.Text;
 namespace MahJongAutoCalculator;
 
 public class Score {
+    public bool ContainCount { get; set; }
     public bool IsYakuman { get; private set; }
     public int Han { get; private set; }
     public int Fu { get; private set; }
@@ -41,11 +42,20 @@ public class Score {
         Han += pConstant;
     }
 
-    public void ApplyForm(string pTypeName, bool pIsYakuman = false) {
-        if(pIsYakuman)
-            _appliedYakuman.Add(pTypeName);
-        else
-            _applied.Add(pTypeName);
+    public void ApplyForm(string pTypeName, int pAmount, bool pIsYakuman = false) {
+        if (ContainCount) {
+            if(pIsYakuman)
+                _appliedYakuman.Add($"{pTypeName}: {pAmount}");
+            else
+                _applied.Add($"{pTypeName}: {pAmount}");    
+        }
+        else {
+            if(pIsYakuman)
+                _appliedYakuman.Add(pTypeName);
+            else
+                _applied.Add(pTypeName);    
+        }
+        
     }
 
     public override string ToString() {

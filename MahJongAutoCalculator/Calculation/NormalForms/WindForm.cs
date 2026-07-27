@@ -7,15 +7,15 @@ public class WindForm: NormalForm {
         var roundWind = pHands.Bodies.Any(body =>
                     body.StandardCard is WindCard wind && wind.Direction == pSetting.RoundWind);
         if (seatWind && roundWind) {
-            pScore.ApplyForm("連風牌");
+            pScore.ApplyForm("連風牌", 2);
             pScore.Add(2);
         }
         else if (seatWind) {
-            pScore.ApplyForm("自風牌");
+            pScore.ApplyForm("自風牌", 1);
             pScore.Add(1);
         }
         else if (roundWind) {
-            pScore.ApplyForm("場風牌");
+            pScore.ApplyForm("場風牌", 1);
             pScore.Add(1);
         }
         return pScore;

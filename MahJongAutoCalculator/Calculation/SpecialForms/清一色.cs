@@ -14,7 +14,7 @@ public class 清一色: SpecialForm {
             if (number.NumberType != type) return pScore;
         }
 
-        ApplyForm(pScore);
+        ApplyForm(pScore, pSetting.HaveCried ? 5 : 6);
         pScore.Add(pSetting.HaveCried ? 5 : 6);
         return pScore;
     }
