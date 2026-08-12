@@ -6,5 +6,9 @@ public abstract class NormalForm: IForm {
 
     protected void ApplyForm(Score pScore, int pAmount, bool pIsYakuman = false, string pPrefix = "", string pSuffix = "") {
          pScore.ApplyForm(pPrefix + Name + pSuffix, pAmount, pIsYakuman);
+         if(pIsYakuman)
+             pScore.AddYakuman(pAmount);
+         else
+             pScore.Add(pAmount);
     }
 }

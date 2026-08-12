@@ -18,7 +18,6 @@ public class 混一色: SpecialForm {
             
         }
         ApplyForm(pScore, pSetting.HaveCried ? 2 : 3);
-        pScore.Add(pSetting.HaveCried ? 2 : 3);
         return pScore;
     }
 }

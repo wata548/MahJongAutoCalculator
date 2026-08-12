@@ -7,8 +7,10 @@ namespace MahJongAutoCalculator;
 public class Calculator {
 	private readonly IReadOnlyList<SpecialForm> _specialForms;
 	private readonly IReadOnlyList<NormalForm> _normalForms;
+	public bool ContainCount { get; set; }
 
-	public Calculator() {
+	public Calculator(bool pContainCount = false) {
+		ContainCount = pContainCount;
 		var asm = Assembly.GetExecutingAssembly();
 		var targets = asm.GetTypes()
 			.Where(type => type is { IsAbstract: false, IsInterface: false }
@@ -29,7 +31,7 @@ public class Calculator {
 		var haveCried = pHands.Count(card => card.IsRotated) - (pSetting.IsRon ? 1 : 0) != 0;
 		pSetting = pSetting with { HaveCried = haveCried };
 		
-		var score = new Score();
+		var score = new Score(ContainCount);
 		var hands = pHands.OrderBy(card => card, new CardComparer());
 		var form = Separator.Separate(hands);
 		if (form is not null) {

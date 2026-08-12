@@ -14,7 +14,6 @@ public class 一盃口: NormalForm {
             if(!last.Equals(target.StandardCard)) continue;
             
             ApplyForm(pScore, 1);
-            pScore.Add(1);
             break;
         }
         return pScore;

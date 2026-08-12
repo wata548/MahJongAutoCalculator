@@ -2,8 +2,8 @@ using System.Text;
 
 namespace MahJongAutoCalculator;
 
-public class Score {
-    public bool ContainCount { get; set; }
+public class Score(bool pContainCount) {
+    public readonly bool ContainCount = pContainCount;
     public bool IsYakuman { get; private set; }
     public int Han { get; private set; }
     public int Fu { get; private set; }

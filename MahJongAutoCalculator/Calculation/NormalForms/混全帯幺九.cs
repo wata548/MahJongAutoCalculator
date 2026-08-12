@@ -10,7 +10,6 @@ public class 混全帯幺九: NormalForm {
         var condition3 = pHands.Bodies.Any(body => body is not { StandardCard: NumberCard });
         if (condition1 && condition2 && condition3) {
             ApplyForm(pScore, pSetting.HaveCried ? 1 : 2);
-            pScore.Add(pSetting.HaveCried ? 1 : 2);
         }
 
         return pScore;

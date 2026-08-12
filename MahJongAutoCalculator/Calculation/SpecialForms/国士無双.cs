@@ -24,7 +24,6 @@ public class 国士無双: SpecialForm {
 
         var isDouble = pLastCard.Equals(shootCard);
         ApplyForm(pScore, isDouble ? 2 : 1, true, "", isDouble ? DoubleSuffix : "");
-        pScore.AddYakuman(isDouble ? 2 : 1);
         return pScore;
     }
 }

@@ -15,7 +15,6 @@ public class 清一色: SpecialForm {
         }
 
         ApplyForm(pScore, pSetting.HaveCried ? 5 : 6);
-        pScore.Add(pSetting.HaveCried ? 5 : 6);
         return pScore;
     }
 }

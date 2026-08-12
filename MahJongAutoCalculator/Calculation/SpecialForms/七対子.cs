@@ -21,7 +21,6 @@ public class 七対子: SpecialForm {
         if (cnt % 2 == 1) return pScore;
         ApplyForm(pScore, 2);
         pScore.Set(pFu: 25);
-        pScore.Add(pHan: 2);
         pScore.FuLock = true;
         return pScore;
     }

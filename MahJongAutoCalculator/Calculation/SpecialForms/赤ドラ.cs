@@ -1,11 +1,10 @@
 namespace MahJongAutoCalculator.SpecialForms;
 
-public class 河底撈魚: SpecialForm {
-
+public class 赤ドラ: SpecialForm {
     public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
-        if (pSetting is { IsLastCard: false, IsRon: true }) {
-            ApplyForm(pScore, 1);
-        }
+        var cnt = pHands.Count(card => card is NumberCard number && number.IsRed);
+        if (cnt > 0)
+            ApplyForm(pScore, cnt);
         return pScore;
     }
 }

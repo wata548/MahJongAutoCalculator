@@ -20,7 +20,6 @@ public class 一気通貫: NormalForm {
 
             if (number.Number == 1 + cnt * 3 && ++cnt == 3) {
                 ApplyForm(pScore, pSetting.HaveCried ? 1 : 2);
-                pScore.Add(pSetting.HaveCried ? 1 : 2);
                 return pScore;
             }
         }

@@ -5,7 +5,6 @@ public class 四暗刻: NormalForm {
         if (pHands.Bodies.All(body => body is {IsStraight: false, IsOpen: false})) {
             var isDouble = pLastCard.Equals(pHands.Head.StandardCard);
             ApplyForm(pScore, isDouble ? 2 : 1, true, "", isDouble ? "単騎" : "");
-            pScore.AddYakuman(isDouble ? 2 : 1);
         }
 
         return pScore;

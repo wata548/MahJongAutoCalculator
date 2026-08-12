@@ -5,7 +5,6 @@ public class 混老頭: SpecialForm {
         var correct = pHands.All(card => (card.Type & CardType.Head) != CardType.None);
         if (correct) {
             ApplyForm(pScore, 2);
-            pScore.Add(2);
         }
 
         return pScore;

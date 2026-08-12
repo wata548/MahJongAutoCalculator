@@ -5,7 +5,6 @@ public class 地和: SpecialForm {
         if (pSetting.IsParent) return pScore;
         if (pSetting is { IsFirstTurn: true, IsRon: false }) {
             ApplyForm(pScore, 1, true);
-            pScore.AddYakuman(1);
         }
 
         return pScore;

@@ -8,6 +8,7 @@ public class Program {
             true,
             WindDirection.East,
             WindDirection.West,
+            0,
             true,
             false,
             false,
@@ -18,7 +19,7 @@ public class Program {
         );
 
         var hands = Big();
-        var calculator = new Calculator();
+        var calculator = new Calculator(true);
         var result = calculator.Calc(setting, hands, [], new LetterCard(LetterType.Bloom, true));
         Console.WriteLine(result);
     }
@@ -61,8 +62,8 @@ public class Program {
         new WindCard(WindDirection.East, false),
         new WindCard(WindDirection.East, false),
         new WindCard(WindDirection.East, false),
-        new NumberCard(NumberType.Wheel, 1, false, false),
-        new NumberCard(NumberType.Wheel, 1, false, false),
+        new NumberCard(NumberType.Wheel, 1, true, false),
+        new NumberCard(NumberType.Wheel, 1, true, false),
         new NumberCard(NumberType.Wheel, 1, false, false),
     ];
     private static List<Card> Test() => [

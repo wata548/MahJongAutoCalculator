@@ -5,7 +5,6 @@ public class 小四喜: NormalForm {
         var cnt = pHands.Bodies.Count(body => body.StandardCard.Type == CardType.Wind);
         if (cnt >= 3 && pHands.Head.StandardCard.Type == CardType.Wind) {
             ApplyForm(pScore, 1, true);
-            pScore.AddYakuman(1);
         }
 
         return pScore;
