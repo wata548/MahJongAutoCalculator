@@ -26,7 +26,7 @@ public class Calculator {
 			.ToList();
 	}
 		
-	public Score Calc(Setting pSetting, IEnumerable<Card> pCryHands, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard) {
+	public Score Calc(Setting pSetting, IEnumerable<Card> pCryHands, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard, out Form pForm) {
 		var haveCried = pCryHands.Count() > 0;
 		pSetting = pSetting with { HaveCried = haveCried };
 		
@@ -37,8 +37,10 @@ public class Calculator {
 		
 		var comp = new CardComparer();
 		var hands = pHands.OrderBy(card => card, comp);
-		var fullHands = pHands.Union(pCryHands).OrderBy(card => card, comp);
+		var fullHands = pHands.Concat(pCryHands).OrderBy(card => card, comp);
 		var form = Separator.Separate(pCryHands, hands);
+		pForm = form;
+		
 		score.Add(pFu: form?.GetFu(pSetting, pLastCard) ?? 0);
 		if (form is not null) {
 			Console.Write(form);

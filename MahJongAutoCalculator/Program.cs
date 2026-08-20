@@ -20,9 +20,13 @@ public class Program {
 			true
 		);
 
-		var hands = Test1();
+		var hands = Thirteen();
 		var calculator = new Calculator(true);
-		var result = calculator.Calc(setting, hands.Item1, hands.Item2, [], new NumberCard(NumberType.Money, 1 ,false));
+		var result = calculator.Calc(setting, 
+			Card.Parse(hands.Cry),
+			Card.Parse(hands.Hand), 
+			[], 
+			Card.Parse(hands.Last).First(), out _);
 		Console.WriteLine(result);
 	}
 
@@ -36,87 +40,10 @@ public class Program {
 		return timer.ElapsedMilliseconds; 
 	}
 
-	private static (List<Card>, List<Card>) SevenHead() => ([],[
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-		new NumberCard(NumberType.Wheel, 2, false),
-	]);
-	private static (List<Card>, List<Card>) Big() => ([
-		new LetterCard(LetterType.White),
-		new LetterCard(LetterType.White),
-		new LetterCard(LetterType.White),
-		new LetterCard(LetterType.Bloom),
-		new LetterCard(LetterType.Bloom),
-		new LetterCard(LetterType.Bloom),
-	], [
-		new LetterCard(LetterType.Middle),
-		new LetterCard(LetterType.Middle),
-		new WindCard(WindDirection.East),
-		new WindCard(WindDirection.East),
-		new WindCard(WindDirection.East),
-		new NumberCard(NumberType.Wheel, 1, true),
-		new NumberCard(NumberType.Wheel, 1, true),
-		new NumberCard(NumberType.Wheel, 1, false),
-	]);
-	private static (List<Card>, List<Card>) Test() => ([
-		new NumberCard(NumberType.Wheel, 1, false), 
-		new NumberCard(NumberType.Wheel, 3, false), 
-		new NumberCard(NumberType.Wheel, 2, false), 
-		new NumberCard(NumberType.Wheel, 1, false), 
-		new NumberCard(NumberType.Wheel, 1, false), 
-		new NumberCard(NumberType.Wheel, 1, false), 		
-		new NumberCard(NumberType.Wheel, 1, false), 		
-		new NumberCard(NumberType.Money, 3, false), 
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 2, false), 
-	], [
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 9, false), 
-		new NumberCard(NumberType.Money, 9, false), 
-	]);
-	private static (List<Card>, List<Card>) Test1() => ([],[
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 1, false), 
-		new NumberCard(NumberType.Money, 8, false), 
-		new NumberCard(NumberType.Money, 7, false), 
-		new NumberCard(NumberType.Money, 9, false), 		
-		new NumberCard(NumberType.Wheel, 4, false), 		
-		new NumberCard(NumberType.Wheel, 3, false), 
-		new NumberCard(NumberType.Wheel, 5, false), 
-		new NumberCard(NumberType.Bamboo, 6, false), 
-		new NumberCard(NumberType.Bamboo, 8, false), 
-		new NumberCard(NumberType.Bamboo, 7, false), 
-		new NumberCard(NumberType.Bamboo, 9, false), 
-		new NumberCard(NumberType.Bamboo, 9, false), 
-	]);
-	private static List<Card> Thirteen() => [
-		new LetterCard(LetterType.White),
-		new LetterCard(LetterType.Bloom),
-		new LetterCard(LetterType.Bloom),
-		new LetterCard(LetterType.Middle),
-		new WindCard(WindDirection.East),
-		new WindCard(WindDirection.West),
-		new WindCard(WindDirection.South),
-		new WindCard(WindDirection.North),
-		new NumberCard(NumberType.Wheel, 1, false),
-		new NumberCard(NumberType.Wheel, 9, false),
-		new NumberCard(NumberType.Money, 1, false),
-		new NumberCard(NumberType.Money, 9, false),
-		new NumberCard(NumberType.Bamboo, 1, false),
-		new NumberCard(NumberType.Bamboo, 9, false),
-	];
+	private record CardArgs(string Cry, string Hand, string Last);
+	private static CardArgs SevenHead() => new("","22222222222222m", "2m");
+	private static CardArgs Big() => new("hhhggg", "mmeee111p", "m");
+	private static CardArgs Test() => new("1111123p123m", "11199m", "1m");
+	private static CardArgs Test1() => new("", "111879m345p6789s", "1m");
+	private static CardArgs Thirteen() => new("", "19m19p19swesnmhgg", "g");
 }
