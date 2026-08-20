@@ -2,7 +2,7 @@ namespace MahJongAutoCalculator.SpecialForms;
 
 public class 国士無双: SpecialForm {
     private const string DoubleSuffix = "十三面聽";
-    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
+    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting, bool pHaveForm) {
         Card shootCard = null;
         Card lastCard = null;
         foreach (var card in pHands ) {

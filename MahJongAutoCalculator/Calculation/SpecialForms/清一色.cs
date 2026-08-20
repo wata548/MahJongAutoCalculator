@@ -2,7 +2,7 @@ namespace MahJongAutoCalculator.SpecialForms;
 
 
 public class 清一色: SpecialForm {
-    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
+    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting, bool pHaveForm) {
         var type = NumberType.Wheel;
         bool find = false;
         foreach (var card in pHands) {

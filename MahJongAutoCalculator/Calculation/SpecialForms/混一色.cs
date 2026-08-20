@@ -1,7 +1,7 @@
 namespace MahJongAutoCalculator.SpecialForms;
 
 public class 混一色: SpecialForm {
-    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
+    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting, bool pHaveForm) {
         if (pHands.All(card => card is NumberCard)) return pScore;
         
         var init = false;

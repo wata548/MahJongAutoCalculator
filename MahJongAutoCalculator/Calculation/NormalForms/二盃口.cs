@@ -1,6 +1,6 @@
 namespace MahJongAutoCalculator.NormalForms;
 
-public class 一盃口: NormalForm {
+public class 二盃口: NormalForm {
     public override Score Calc(Score pScore, Form pHands, Card pLastCard, Setting pSetting) {
         if (pSetting is { HaveCried: true }) return pScore;
         
@@ -16,7 +16,7 @@ public class 一盃口: NormalForm {
             cnt++;
             last = null;
         }
-        if(cnt == 1) ApplyForm(pScore, 1);
+        if(cnt == 2) ApplyForm(pScore, 3);
         return pScore;
     }
 }

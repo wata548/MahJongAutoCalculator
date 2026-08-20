@@ -1,7 +1,8 @@
 namespace MahJongAutoCalculator.SpecialForms;
 
 public class 七対子: SpecialForm {
-    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting) {
+    public override Score Calc(Score pScore, IOrderedEnumerable<Card> pHands, Card pLastCard, Setting pSetting, bool pHaveForm) {
+        if (pHaveForm) return pScore;
         var cnt = 0;
         Card last = null;
         foreach (var card in pHands) {

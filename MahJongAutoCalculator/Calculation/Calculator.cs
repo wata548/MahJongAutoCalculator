@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using MahJongAutoCalculator.NormalForms;
 using MahJongAutoCalculator.SpecialForms;
@@ -31,17 +32,17 @@ public class Calculator {
 		pSetting = pSetting with { HaveCried = haveCried };
 		
 		var score = new Score(ContainCount);
-		score.Add(pFu: 20);
-		if(!pSetting.IsRon) score.Add(pFu: 2);
-		else if(!pSetting.HaveCried) score.Add(pFu: 10);
+		score.AddFu(20);
+		if(!pSetting.IsRon) score.AddFu(2);
+		else if(!pSetting.HaveCried) score.AddFu(10);
 		
-		var comp = new CardComparer();
-		var hands = pHands.OrderBy(card => card, comp);
-		var fullHands = pHands.Concat(pCryHands).OrderBy(card => card, comp);
+		var comparer = new CardComparer();
+		var hands = pHands.OrderBy(card => card, comparer);
+		var fullHands = pHands.Concat(pCryHands).OrderBy(card => card, comparer);
 		var form = Separator.Separate(pCryHands, hands);
 		pForm = form;
 		
-		score.Add(pFu: form?.GetFu(pSetting, pLastCard) ?? 0);
+		score.AddFu(form?.GetFu(pSetting, pLastCard) ?? 0);
 		if (form is not null) {
 			Console.Write(form);
 			score = _normalForms.Aggregate(score,
@@ -51,9 +52,77 @@ public class Calculator {
 		score.CeilFu();
 		
 		score = _specialForms.Aggregate(score, 
-			(current, form) => form.Calc(current, fullHands, pLastCard, pSetting)
+			(current, specialForm) => specialForm.Calc(current, fullHands, pLastCard, pSetting, form != null)
 		);
+		
+		CalcDora();
+		return score;
 
-		var red = fullHands.Count(card => card is NumberCard { IsRed: true }); return score;
+		void CalcDora() {
+			if(score.IsYakuman) return;
+			if (score.Han == 0) return;
+			
+			var red = fullHands.Count(card => card is NumberCard { IsRed: true }); 
+			if(red > 0)
+				score.ApplyForm("赤ドラ", red);
+		
+			foreach (var dora in pDoras) {
+				dora.MoveNext();
+			}
+			var handEnumerator = fullHands.GetEnumerator();
+			var doraEnumerator = pDoras.OrderBy(card => card, comparer).GetEnumerator();
+			var doraCnt = 0;
+			if (!(handEnumerator.MoveNext() && doraEnumerator.MoveNext()))
+				return;
+			var stack = 0;
+			while (true) {
+				var comp = handEnumerator.Current.CompareTo(doraEnumerator.Current);
+				if (comp == 0) {
+					doraCnt++;
+					stack++;
+					while (true) {
+						var temp = handEnumerator.Current;
+						if (!handEnumerator.MoveNext()) goto Exit;
+						if (temp.CompareTo(handEnumerator.Current) == 0) {
+							doraCnt++;
+							stack++;	
+						}
+						else break;
+					}
+				}
+				else if (comp < 0) {
+					if (!handEnumerator.MoveNext()) break;
+				}
+				else {
+					while (true) {
+						var temp = doraEnumerator.Current;
+						if (!doraEnumerator.MoveNext()) goto Exit;
+						if(temp.CompareTo(doraEnumerator.Current) == 0)
+							doraCnt += stack;
+						else {
+							stack = 0;
+							break;
+						}
+					}
+				}
+			}	
+			Exit:
+			while (true) {
+				var temp = doraEnumerator.Current;
+				if (!doraEnumerator.MoveNext()) break;
+				if(temp.CompareTo(doraEnumerator.Current) == 0)
+					doraCnt += stack;
+				else {
+					stack = 0;
+					break;
+				}
+			}
+			
+			if(doraCnt > 0)
+				score.ApplyForm("ドラ", doraCnt);
+			
+			if(pSetting.NorthCnt > 0)
+				score.ApplyForm("抜きドラ", pSetting.NorthCnt);
+		}
 	}
 }

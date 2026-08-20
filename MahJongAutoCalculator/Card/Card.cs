@@ -11,7 +11,7 @@ public abstract class Card: IEquatable<Card>, IComparable<Card> {
     
 	//==================================================||Methods 
 	public abstract bool Equals(Card? pOther);
-
+	public abstract void MoveNext();
 	protected abstract int CompareToSameType(Card pOther);
 
 	public static IEnumerable<Card> Parse(string pContext) {
