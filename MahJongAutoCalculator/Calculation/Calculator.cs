@@ -82,7 +82,7 @@ public class Calculator {
 					stack++;
 					while (true) {
 						var temp = handEnumerator.Current;
-						if (!handEnumerator.MoveNext()) goto Exit;
+						if (!handEnumerator.MoveNext()) goto ExitLoop;
 						if (temp.CompareTo(handEnumerator.Current) == 0) {
 							doraCnt++;
 							stack++;	
@@ -96,7 +96,7 @@ public class Calculator {
 				else {
 					while (true) {
 						var temp = doraEnumerator.Current;
-						if (!doraEnumerator.MoveNext()) goto Exit;
+						if (!doraEnumerator.MoveNext()) goto ExitLoop;
 						if(temp.CompareTo(doraEnumerator.Current) == 0)
 							doraCnt += stack;
 						else {
@@ -106,7 +106,7 @@ public class Calculator {
 					}
 				}
 			}	
-			Exit:
+		ExitLoop:
 			while (true) {
 				var temp = doraEnumerator.Current;
 				if (!doraEnumerator.MoveNext()) break;
