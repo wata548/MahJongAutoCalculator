@@ -15,6 +15,12 @@ public class Score(bool pContainCount) {
     private List<string> _applied = new();
     private List<string> _appliedYakuman = new();
 
+    public void CeilFu() {
+        var mod = Fu % 10;
+        if (mod == 0) return;
+        Fu += 10 - mod;  
+    } 
+    
     public void Set(int pHan = -1, int pFu = -1) {
         if (IsYakuman) return;
         if(!HanLock && pHan != -1)

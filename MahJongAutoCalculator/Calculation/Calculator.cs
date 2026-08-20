@@ -14,7 +14,7 @@ public class Calculator {
 		var asm = Assembly.GetExecutingAssembly();
 		var targets = asm.GetTypes()
 			.Where(type => type is { IsAbstract: false, IsInterface: false }
-			               && type.IsAssignableTo(typeof(IForm))
+				&& type.IsAssignableTo(typeof(IForm))
 			);
 		_specialForms = targets
 			.Where(type => type.IsAssignableTo(typeof(SpecialForm)))
@@ -26,25 +26,32 @@ public class Calculator {
 			.ToList();
 	}
 		
-	public Score Calc(Setting pSetting, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard) {
-		//TODO: calculate Fu
-		var haveCried = pHands.Count(card => card.IsRotated) - (pSetting.IsRon ? 1 : 0) != 0;
+	public Score Calc(Setting pSetting, IEnumerable<Card> pCryHands, IEnumerable<Card> pHands, IEnumerable<Card> pDoras, Card pLastCard) {
+		var haveCried = pCryHands.Count() > 0;
 		pSetting = pSetting with { HaveCried = haveCried };
 		
 		var score = new Score(ContainCount);
-		var hands = pHands.OrderBy(card => card, new CardComparer());
-		var form = Separator.Separate(hands);
+		score.Add(pFu: 20);
+		if(!pSetting.IsRon) score.Add(pFu: 2);
+		else if(!pSetting.HaveCried) score.Add(pFu: 10);
+		
+		var comp = new CardComparer();
+		var hands = pHands.OrderBy(card => card, comp);
+		var fullHands = pHands.Union(pCryHands).OrderBy(card => card, comp);
+		var form = Separator.Separate(pCryHands, hands);
+		score.Add(pFu: form?.GetFu(pSetting, pLastCard) ?? 0);
 		if (form is not null) {
+			Console.Write(form);
 			score = _normalForms.Aggregate(score,
 				(current, checkForm) => checkForm.Calc(current, form, pLastCard, pSetting)
 			);	
 		}
+		score.CeilFu();
 		
 		score = _specialForms.Aggregate(score, 
-			(current, form) => form.Calc(current, hands, pLastCard, pSetting)
+			(current, form) => form.Calc(current, fullHands, pLastCard, pSetting)
 		);
-        
-		//TODO: Calc doras
-		return score;
+
+		var red = fullHands.Count(card => card is NumberCard { IsRed: true }); return score;
 	}
 }
