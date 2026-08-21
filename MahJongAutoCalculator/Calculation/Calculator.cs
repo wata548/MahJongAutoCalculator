@@ -33,9 +33,6 @@ public class Calculator {
 		
 		var score = new Score(ContainCount);
 		score.AddFu(20);
-		if(!pSetting.IsRon) score.AddFu(2);
-		else if(!pSetting.HaveCried) score.AddFu(10);
-		
 		var comparer = new CardComparer();
 		var hands = pHands.OrderBy(card => card, comparer);
 		var fullHands = pHands.Concat(pCryHands).OrderBy(card => card, comparer);
@@ -49,13 +46,23 @@ public class Calculator {
 				(current, checkForm) => checkForm.Calc(current, form, pLastCard, pSetting)
 			);	
 		}
-		score.CeilFu();
 		
 		score = _specialForms.Aggregate(score, 
 			(current, specialForm) => specialForm.Calc(current, fullHands, pLastCard, pSetting, form != null)
 		);
 		
 		CalcDora();
+
+		if (score.Fu == 20) {
+			score.ApplyForm("平和", 1);
+			if(pSetting is { IsRon: true, HaveCried: false }) score.AddFu(10);	
+		}
+		else {
+			if(!pSetting.IsRon) score.AddFu(2);
+			else if(!pSetting.HaveCried) score.AddFu(10);	
+		}
+		score.CeilFu();
+		
 		return score;
 
 		void CalcDora() {
