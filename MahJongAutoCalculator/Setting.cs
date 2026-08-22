@@ -6,6 +6,7 @@ public record Setting(
 	WindDirection SeatWind,
 	int NorthCnt,
 	bool IsRich,
+	bool IsStealFour,
 	bool IsFirstTurn,
 	bool IsLastCard,
 	bool IsRon,

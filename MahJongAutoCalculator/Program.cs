@@ -12,6 +12,7 @@ public class Program {
 			WindDirection.South,
 			4,
 			false,
+			true,
 			false,
 			true,
 			true,
@@ -19,21 +20,24 @@ public class Program {
 			false,
 			true
 		);
+		Console.WriteLine(Execute(setting).ToString(setting));
+	}
+
+	private static Score Execute(Setting pSetting) {
 		var hands = SevenHead2();
 		var calculator = new Calculator(true);
-		var result = calculator.Calc(setting, 
+		return calculator.Calc(pSetting, 
 			Card.Parse(hands.Cry),
 			Card.Parse(hands.Hand), 
 			Card.Parse(hands.Dora), 
 			Card.Parse(hands.Last).First(), out _);
-		Console.WriteLine(result.ToString(setting));
 	}
-
-	private float BenchMaking(IOrderedEnumerable<Card> pHands, int pAmount) {
+	
+	private static float BenchMaking(int pAmount, Setting pSetting) {
 		var timer = new Stopwatch();
 		timer.Start();
 		while (pAmount --> 0) {
-			//Separator.Separate(pHands);
+			Execute(pSetting);
 		}
 		timer.Stop();
 		return timer.ElapsedMilliseconds; 
